@@ -121,7 +121,7 @@ We give thanks to Uy Dieu Tran for early discussions as well as providing many h
 
 ## Note
 
-This implementation and model version is outdated. We have also been developing a superior version, **SwiftBrush v2**, and a brief introduction of its is available [here](https://swiftbrushv2.github.io/).
+We have also been developing a superior version, **SwiftBrush v2**, and a brief introduction of its is available [here](https://swiftbrushv2.github.io/).
 
 ## Contacts
 If you have any questions, please drop an email to _v.thuannh5@vinai.io_ or open an issue in this repository.
