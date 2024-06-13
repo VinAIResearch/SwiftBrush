@@ -371,39 +371,15 @@ def predict_original(unet, noise_scheduler, input_noise, prompt_embeds):
 
 
 class PromptDataset(Dataset):
-    def __init__(self, train_data_dir, return_dict=True, nsamples=None):
-        p = Path(train_data_dir)
-        self.return_dict = return_dict
-        self.nsamples = nsamples
-
-        if p.is_dir():
-            self.train_data_paths = list(natsorted(glob.glob(train_data_dir + "/*.npy")))
-            if self.nsamples is not None:
-                self.train_data_paths = self.train_data_paths[: self.nsamples]
-            self.memmap = None
-        else:
-            self.train_data_paths = None
-            self.memmap = np.load(train_data_dir, mmap_mode="r")
-            self.memmap = self.memmap.reshape(-1, 77, 1024)
-            if self.nsamples is not None:
-                self.memmap = self.memmap[: self.nsamples]
-
-    def _load(self, idx):
-        if self.train_data_paths is not None:
-            return {"prompt_embeds": torch.from_numpy(np.load(self.train_data_paths[idx], allow_pickle=True))}
-        else:
-            return {"prompt_embeds": torch.tensor(self.memmap[idx])}
+    def __init__(self, train_data_dir):
+        self.train_data_paths = list(natsorted(glob.glob(train_data_dir + "/*.npy")))
 
     def __len__(self):
-        return len(self.train_data_paths) if self.train_data_paths is not None else len(self.memmap)
+        return len(self.train_data_paths)
 
     def __getitem__(self, index):
-        data = self._load(index)
-
-        if self.return_dict:
-            return data
-        else:
-            return data["prompt_embeds"]
+        data = {"prompt_embeds": torch.from_numpy(np.load(self.train_data_paths[index], allow_pickle=True))}
+        return data
 
     def shuffle(self, *args, **kwargs):
         random.shuffle(self.train_data_paths)
