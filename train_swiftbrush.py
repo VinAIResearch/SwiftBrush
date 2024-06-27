@@ -39,7 +39,6 @@ from diffusers.optimization import get_scheduler
 from diffusers.training_utils import EMAModel
 from diffusers.utils import check_min_version
 from diffusers.utils.import_utils import is_xformers_available
-from natsort import natsorted
 from packaging import version
 from peft import LoraConfig, PeftModel
 from torch.utils.data import Dataset
@@ -372,7 +371,7 @@ def predict_original(unet, noise_scheduler, input_noise, prompt_embeds):
 
 class PromptDataset(Dataset):
     def __init__(self, train_data_dir):
-        self.train_data_paths = list(natsorted(glob.glob(train_data_dir + "/*.npy")))
+        self.train_data_paths = list(glob.glob(train_data_dir + "/*.npy"))
 
     def __len__(self):
         return len(self.train_data_paths)
