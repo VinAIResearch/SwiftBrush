@@ -1,0 +1,6 @@
+@inproceedings{thuan2024swiftbrush,
+  title={SwiftBrush: One-Step Text-to-Image Diffusion Model with Variational Score Distillation},
+  author={Thuan Hoang Nguyen,  Anh Tran},
+  year={2024},
+  booktitle={IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+}
