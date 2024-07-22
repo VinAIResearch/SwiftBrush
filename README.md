@@ -3,7 +3,8 @@
 2. [How to Run](#how-to-run)
 3. [Acknowledgments](#acknowledgments)
 4. [Note](#note)
-5. [Contacts](#contacts)
+5. [License](#license)
+6. [Contacts](#contacts)
 
 # Official PyTorch code of "SwiftBrush: One-Step Text-to-Image Diffusion Model with Variational Score Distillation" (CVPR'24)
 <a href="https://arxiv.org/abs/2312.05239"><img src="https://img.shields.io/badge/paper-2312.05239-red?style=for-the-badge"></a>
@@ -122,6 +123,14 @@ We give thanks to Uy Dieu Tran for early discussions as well as providing many h
 ## Note
 
 We have also been developing a superior version, **SwiftBrush v2**, and a brief introduction of its is available [here](https://swiftbrushv2.github.io/).
+
+## License
+```
+Copyright (c) 2024 VinAI
+Licensed under the Creative Commons Attribution Non Commercial 4.0 International.
+You may obtain a copy of the License at
+    https://creativecommons.org/licenses/by-nc/4.0/
+```
 
 ## Contacts
 If you have any questions, please drop an email to _v.thuannh5@vinai.io_ or open an issue in this repository.
