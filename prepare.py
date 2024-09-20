@@ -6,7 +6,6 @@ from pathlib import Path
 
 import numpy as np
 import torch
-import typer
 from tqdm.auto import tqdm
 from transformers import AutoTokenizer, PretrainedConfig
 
@@ -64,10 +63,6 @@ def encode_prompt(prompts, text_encoder, tokenizer, is_train=True):
     return {"prompt_embeds": prompt_embeds.detach().cpu().numpy()}
 
 
-app = typer.Typer()
-
-
-@app.command()
 def main(args):
     batch_size = args.batch_size
     num_processes = args.num_processes
