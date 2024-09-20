@@ -737,13 +737,13 @@ def main(args):
                 input_shape = (bsz, 4, args.resolution // 8, args.resolution // 8)
                 input_noise = torch.randn(*input_shape, dtype=weight_dtype, device=accelerator.device)
 
-                # Predict the noise residual
+                # Get the text embeddings
                 prompt_embeds = batch["prompt_embeds"].to(accelerator.device, dtype=weight_dtype)
                 prompt_null_embeds = (
                     null_dict["prompt_embeds"].repeat(bsz, 1, 1).to(accelerator.device, dtype=weight_dtype)
                 )
 
-                # Get predicted original sampls from unet
+                # Get predicted original samples from unet
                 pred_original_samples = predict_original(unet, noise_scheduler, input_noise, prompt_embeds).to(
                     dtype=weight_dtype
                 )
