@@ -1,0 +1,54 @@
+name: SLSA Generic Generator
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      digests: ${{ steps.hash.outputs.digests }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Artifacts
+        run: |
+          echo "Building artifacts..."
+          # Create example artifacts (replace with actual build commands)
+          echo "artifact1" > artifact1
+          echo "artifact2" > artifact2
+          echo "Artifacts built successfully."
+
+      - name: Generate Subject for Provenance
+        id: hash
+        run: |
+          set -euo pipefail
+
+          # List the artifacts for provenance
+          files=$(ls artifact*)
+          echo "Generating SHA256 hashes for artifacts: $files"
+
+          # Generate base64-encoded SHA256 hashes
+          if [ -z "$files" ]; then
+            echo "No artifacts found! Exiting..."
+            exit 1
+          fi
+
+          hashes=$(sha256sum $files | base64 -w0)
+          echo "hashes=$hashes" >> "${GITHUB_OUTPUT}"
+          echo "Provenance subjects generated."
+
+  provenance:
+    needs: [build]
+    permissions:
+      actions: read   # Read the workflow path.
+      id-token: write # Sign the provenance.
+      contents: write # Add assets to a release.
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.4.0
+    with:
+      base64-subjects: "${{ needs.build.outputs.digests }}"
+      upload-assets: true # Optional: Upload to a new release
