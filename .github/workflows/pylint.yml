@@ -1,0 +1,56 @@
+name: Pylint CI
+
+on: 
+  push:
+    branches: 
+      - main
+      - dev # Add any other branches you want to include
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10"]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache Python Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Dependencies
+        run: |
+          echo "Upgrading pip..."
+          python -m pip install --upgrade pip
+          echo "Installing Pylint..."
+          pip install pylint
+
+      - name: Analyze Code with Pylint
+        run: |
+          echo "Running Pylint analysis..."
+          if [ -z "$(git ls-files '*.py')" ]; then
+            echo "No Python files found for analysis."
+            exit 0
+          fi
+
+          pylint_output=$(pylint $(git ls-files '*.py') --exit-zero --output-format=json)
+
+          if [ $? -ne 0 ]; then
+            echo "Pylint found issues with the code:"
+            echo "$pylint_output" | jq '.' # Requires 'jq' to be installed
+            exit 1
+          else
+            echo "Pylint analysis completed without critical issues."
+          fi
