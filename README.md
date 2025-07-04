@@ -46,7 +46,7 @@ Before running the scripts, make sure to install the library's training dependen
 Navigate to the swiftbrush folder and setup the conda environment 
 ```bash
 cd swiftbrush
-conda install -n swiftbrush python=3.10
+conda create -n swiftbrush python=3.10
 ```
 
 Then activate the conda environment and install all dependencies 
