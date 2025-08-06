@@ -891,7 +891,7 @@ def main(args):
                                 else None
                             )
 
-                            with torch.cuda.amp.autocast():
+                            with accelerate.autocast():
                                 images = {}
                                 for prompt, validation_dict in zip(args.validation_prompts, validation_dicts):
                                     images[prompt] = [
